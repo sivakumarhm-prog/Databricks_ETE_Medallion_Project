@@ -48,8 +48,6 @@ Input files placed by source team into **ADLS Gen2 `source` container**:
 ---
 
 ## 🔹 Project Flow Diagram
-📌 *(Add an image under `/docs/architecture.png` showing Bronze → Silver → Gold pipeline with datasets)*  
-
 Example:
 ```bash
 /docs/architecture.png
