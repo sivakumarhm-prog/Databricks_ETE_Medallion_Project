@@ -47,7 +47,9 @@ Input files placed by source team into **ADLS Gen2 `source` container**:
 
 ---
 
-## 🔹 Project Flow Diagram
+```markdown
+## 📌 Project Flow Diagram
+
 Example:
-```bash
-/docs/architecture.png
+
+![Architecture Diagram](docs/architecture.png)
