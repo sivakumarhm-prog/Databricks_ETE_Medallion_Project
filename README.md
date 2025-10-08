@@ -46,10 +46,3 @@ Input files placed by source team into **ADLS Gen2 `source` container**:
 - SCD - Type 1 and SCD - Type 2 using DLT
 
 ---
-
-```markdown
-## 📌 Project Flow Diagram
-
-Example:
-
-![Architecture Diagram](docs/architecture.png)
