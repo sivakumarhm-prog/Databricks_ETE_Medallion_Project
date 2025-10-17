@@ -1,6 +1,6 @@
 # 🚀 ETE Databricks Project with Medallion Data Architecture.
 ## 🔹 Overview
-End-to-end data engineering project implemented on **Databricks** using **ADLS Gen2, Unity Catalog, Autoloader, and Delta Live Tables** to achieve SCD-Type 1 and Type 2.  
+End-to-end data engineering project implemented on **Databricks** leveraging **ADLS Gen2, Unity Catalog, Autoloader, and Delta Live Tables** to achieve SCD-Type 1 and Type 2.  
 The goal was to build a **medallion architecture (Bronze → Silver → Gold)** enforcing **star schema** at the gold layer.
 
 ---
