@@ -1,47 +1,72 @@
-# 🚀 ETE Databricks Project with Medallion Data Architecture.
-## 🔹 Overview
-End-to-end data engineering project implemented on **Databricks** leveraging **ADLS Gen2, Unity Catalog, Autoloader, and Delta Live Tables** to achieve SCD-Type 1 and Type 2.  
-The goal was to build a **medallion architecture (Bronze → Silver → Gold)** enforcing **star schema** at the gold layer.
+# Databricks E2E Pipeline | Retail Dataset | Medallion Architecture
+
+## Overview
+This project implements an **End-to-End (E2E) Data Pipeline** using **Azure Databricks**, designed around the **Medallion Architecture** (Bronze, Silver, Gold layers) for efficient data ingestion, transformation, and governance. The pipeline processes a **Retail Dataset** and enforces a **Star Schema** at the Gold layer with **Slowly Changing Dimensions (SCD Type 1 & Type 2)** applied on dimension tables.
 
 ---
 
-## 🔹 Data Sources
-Input files placed by source team into **ADLS Gen2 `source` container**:
-
-- `region/` → Lookup dataset (one-time load)  
-- `customers/` → Dimension table (**SCD Type 1**)  
-- `products/` → Dimension table (**SCD Type 2 with DLT**)  
-- `orders/` → Fact table  
+## Architecture Summary
+- **Medallion Architecture Layers:**
+  - **Bronze:** Raw ingestion layer using Databricks Autoloader.
+  - **Silver:** Cleansed and curated data stored as Delta files.
+  - **Gold:** Business-level data models (Star Schema) for analytics.
 
 ---
 
-## 🔹 Architecture
+## Implementation Steps
 
-### Bronze Layer
-- **Region dataset** → Ingested via **Databricks data ingestion UI** (no code).  
-- **Customers, Products, Orders** → Ingested via **Autoloader** (structured streaming with checkpointing).  
-- All tables registered under **Unity Catalog**.  
+1. **Source Setup**
+   - Created a **source container** in **Azure Data Lake Storage Gen2 (ADLS Gen2)**.
+   - Source team uploads input datasets into this container for ingestion.
 
-### Silver Layer
-- Transformations applied to **clean, standardize, and join** datasets.  
-- Stored as **Delta tables** in the Silver schema.  
+2. **Data Governance & Access Configuration**
+   - Created a new **Unity Catalog Metastore** and assigned it to the Databricks Workspace.
+   - Set up **Access Connector for Azure Databricks** to securely connect Databricks with ADLS Gen2 storage accounts and containers.
+   - Ensured compliance with high-grade data governance and RBAC control.
 
-### Gold Layer
-- **Customers** → Implemented **SCD Type 1** (overwrite updates).  
-- **Products** → Implemented **SCD Type 2** (historical tracking using Delta Live Tables).  
-- **Orders** → Fact table, joined with dimensions.  
-- Final schema enforces **star schema** for analytics.  
+3. **Bronze Layer – Ingestion**
+   - Implemented Databricks **Autoloader**, built on top of Spark’s **Structured Streaming**, for streaming ingestion.
+   - Achieved **exactly-once** ingestion functionality into the **Bronze container**.
+
+4. **Silver Layer – Transformation**
+   - Performed required data cleaning and transformation on Bronze datasets.
+   - Stored transformed data in the **Silver layer** as **Delta files**.
+   - Created corresponding **Delta tables** for structured query capabilities.
+
+5. **Gold Layer – Star Schema Modeling**
+   - Enforced **Star Schema** design for analytical efficiency:
+     - **Fact Table:** Orders Dataset  
+     - **Dimension Tables:** Products, Customers
+   - Stored datasets in the **Gold layer** using Delta format for performance optimization.
+
+6. **Slowly Changing Dimensions (SCD) Enforcement**
+   - **Customer Dimension:** Applied **SCD Type 1 (Upsert)** for direct updates.
+   - **Products Dimension:** Applied **SCD Type 2 (Upsert with Data Lineage)** using **Delta Live Tables (DLT)** – Databricks' declarative ETL framework.
 
 ---
 
-## 🔹 Tech Stack
-- Databricks
-- Metastore Creation and Workspace assignment.
-- Access Connector for Azure Databricks.
-- AutoLoader capabilities of Spark Structured Streaming.
-- Basic and Advanced PySpark functions.
-- Azure Data Lake Storage Gen2 (ADLS Gen2)  
-- Delta Lake (Bronze / Silver / Gold layers)
-- SCD - Type 1 and SCD - Type 2 using DLT
+## Outcome
+Successfully implemented an **End-to-End Pipeline** in Databricks with:
+- Complete **Medallion Architecture** setup.
+- Unified **Star Schema** model at the Gold layer.
+- Data governance via **Unity Catalog**.
+- Automated data lineage and versioning through **SCD type enforcement**.
+
+The pipeline delivers scalable, governed, and high-performance data transformations ready for downstream analytics and BI reporting.
 
 ---
+
+## Tech Stack
+- **Platform:** Azure Databricks  
+- **Storage:** ADLS Gen2  
+- **Frameworks:** Autoloader, DLT (Delta Live Tables)  
+- **Format:** Delta Lake  
+- **Architecture:** Medallion (Bronze–Silver–Gold)  
+- **Schema Model:** Star Schema  
+- **Governance:** Unity Catalog
+
+---
+
+## Author
+**Data Engineer:** Sivakumar Murugesan
+**Date:** October 2025  
